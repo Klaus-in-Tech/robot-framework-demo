@@ -5,9 +5,10 @@ Documentation     Orders robots from RobotSpareBin Industries Inc.
 ...               Embeds the screenshot of the robot to the PDF receipt.
 ...               Creates ZIP archive of the receipts and the images.
 
-Library            RPA.Browser.Selenium
+Library            RPA.Browser.Selenium    auto_close=${False}
 Library    RPA.HTTP
 Library    RPA.Tables 
+Library    RPA.Desktop
 
 
 *** Variables ***
@@ -17,14 +18,13 @@ ${currdir}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\
 
 
 
-
-
 *** Tasks ***
 Open the intranet site and log in
-    #Open the intranet website
-    #Log in
+    Wait Until Keyword Succeeds    3x    0.5 sec    Open the intranet website
+    Log in
+    Close the annoying modal
     #Get orders
-    Read CSV File
+    #Read CSV File
     
 
 
@@ -48,3 +48,7 @@ Read CSV File
     FOR    ${row}    IN    @{data}
         Log    ${row}
     END
+    
+Close the annoying modal
+    Go To    https://robotsparebinindustries.com/#/robot-order
+    Click Button    //*[@id="root"]/div/div[2]/div/div/div/div/div/button[1]
