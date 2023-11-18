@@ -6,16 +6,27 @@ Documentation     Orders robots from RobotSpareBin Industries Inc.
 ...               Creates ZIP archive of the receipts and the images.
 
 Library            RPA.Browser.Selenium
+Library    RPA.HTTP
+Library    RPA.Tables 
 
 
 *** Variables ***
 ${URL}=     https://robotsparebinindustries.com/
+${DOWNLOADURL}=       https://robotsparebinindustries.com/orders.csv
+${currdir}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\
+
+
+
 
 
 *** Tasks ***
 Open the intranet site and log in
-    Open the intranet website
-    Log in
+    #Open the intranet website
+    #Log in
+    #Get orders
+    Read CSV File
+    
+
 
 
 *** Keywords ***
@@ -26,3 +37,14 @@ Log in
     Input Text    username    maria
     Input Password    password    thoushallnotpass
     Submit Form
+
+Get orders
+    Download     
+    ...    ${DOWNLOADURL}    
+    ...    overwrite=${True}
+
+Read CSV File
+    ${data}=    Read table from CSV   path=${currdir}orders.csv
+    FOR    ${row}    IN    @{data}
+        Log    ${row}
+    END

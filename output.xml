@@ -1,24 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 6.1.1 (Python 3.10.12 on win32)" generated="20231109 11:35:22.303" rpa="true" schemaversion="4">
+<robot generator="Robot 6.1.1 (Python 3.10.12 on win32)" generated="20231110 11:22:47.109" rpa="true" schemaversion="4">
 <suite id="s1" name="Tasks" source="d:\_PROJECTS\Robocorp projects\robot-framework-demo\tasks.robot">
-<test id="s1-t1" name="Order robots from RobotSpareBin Industries Inc" line="16">
-<status status="FAIL" starttime="20231109 11:35:27.823" endtime="20231109 11:35:27.865">Task cannot be empty.</status>
+<test id="s1-t1" name="Open the intranet site and log in" line="17">
+<kw name="Open the intranet website">
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>${URL}</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20231110 11:23:16.542" level="INFO">Downloaded webdriver to: C:\Users\ACER\AppData\Local\robocorp\webdrivers\.wdm\drivers\chromedriver\win64\119.0.6045.105\chromedriver-win32/chromedriver.exe</msg>
+<msg timestamp="20231110 11:23:16.792" level="INFO">Webdriver version taken into use: ChromeDriver 119.0.6045.105 (38c72552c5e15ba9b3117c0967a0fd105072d7c6-refs/branch-heads/6045@{#1103})
+</msg>
+<msg timestamp="20231110 11:23:17.838" level="INFO">Targeted browser version: 119.0.6045</msg>
+<msg timestamp="20231110 11:23:17.839" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20231110 11:23:19.924" level="INFO">Created Chrome browser with arguments: --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20231110 11:23:19.925" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;Message: Webdriver executable 'chromedriver' is not in PATH (with disabled Selenium Manager)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;True&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20231110 11:23:19.925" level="INFO">Opening url 'https://robotsparebinindustries.com/'</msg>
+<status status="PASS" starttime="20231110 11:23:00.802" endtime="20231110 11:23:22.579"/>
+</kw>
+<status status="PASS" starttime="20231110 11:23:00.797" endtime="20231110 11:23:22.580"/>
+</kw>
+<kw name="Log in">
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>username</arg>
+<arg>maria</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20231110 11:23:22.595" level="INFO">Typing text 'maria' into text field 'username'.</msg>
+<status status="PASS" starttime="20231110 11:23:22.589" endtime="20231110 11:23:24.343"/>
+</kw>
+<kw name="Input Password" library="RPA.Browser.Selenium">
+<arg>password</arg>
+<arg>thoushallnotpass</arg>
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<msg timestamp="20231110 11:23:24.349" level="INFO">Typing password into text field 'password'.</msg>
+<msg timestamp="20231110 11:23:24.465" level="INFO">Temporally setting log level to: NONE</msg>
+<msg timestamp="20231110 11:23:24.594" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20231110 11:23:24.347" endtime="20231110 11:23:24.595"/>
+</kw>
+<kw name="Submit Form" library="RPA.Browser.Selenium">
+<doc>Submits a form identified by ``locator``.</doc>
+<msg timestamp="20231110 11:23:24.597" level="INFO">Submitting form 'None'.</msg>
+<status status="PASS" starttime="20231110 11:23:24.596" endtime="20231110 11:23:24.648"/>
+</kw>
+<status status="PASS" starttime="20231110 11:23:22.588" endtime="20231110 11:23:24.649"/>
+</kw>
+<kw name="Download order csv">
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>${ROBOTURL}</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20231110 11:23:27.035" level="INFO">Downloaded webdriver to: C:\Users\ACER\AppData\Local\robocorp\webdrivers\.wdm\drivers\chromedriver\win64\119.0.6045.105\chromedriver-win32/chromedriver.exe</msg>
+<msg timestamp="20231110 11:23:27.087" level="INFO">Webdriver version taken into use: ChromeDriver 119.0.6045.105 (38c72552c5e15ba9b3117c0967a0fd105072d7c6-refs/branch-heads/6045@{#1103})
+</msg>
+<msg timestamp="20231110 11:23:28.328" level="INFO">Targeted browser version: 119.0.6045</msg>
+<msg timestamp="20231110 11:23:28.329" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20231110 11:23:30.342" level="INFO">Created Chrome browser with arguments: --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20231110 11:23:30.343" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;Message: Webdriver executable 'chromedriver' is not in PATH (with disabled Selenium Manager)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;True&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20231110 11:23:30.345" level="INFO">Opening url 'https://robotsparebinindustries.com/orders.csv'</msg>
+<status status="PASS" starttime="20231110 11:23:24.653" endtime="20231110 11:23:35.118"/>
+</kw>
+<status status="PASS" starttime="20231110 11:23:24.651" endtime="20231110 11:23:35.119"/>
+</kw>
+<status status="PASS" starttime="20231110 11:23:00.795" endtime="20231110 11:23:35.132"/>
 </test>
 <doc>Orders robots from RobotSpareBin Industries Inc.
 Saves the order HTML receipt as a PDF file.
 Saves the screenshot of the ordered robot.
 Embeds the screenshot of the robot to the PDF receipt.
 Creates ZIP archive of the receipts and the images.</doc>
-<status status="FAIL" starttime="20231109 11:35:22.362" endtime="20231109 11:35:27.927"/>
+<status status="PASS" starttime="20231110 11:22:47.151" endtime="20231110 11:23:35.135"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tasks</stat>
+<stat pass="1" fail="0" skip="0">All Tasks</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="1" skip="0" id="s1" name="Tasks">Tasks</stat>
+<stat pass="1" fail="0" skip="0" id="s1" name="Tasks">Tasks</stat>
 </suite>
 </statistics>
 <errors>
