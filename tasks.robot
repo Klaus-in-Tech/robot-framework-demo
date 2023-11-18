@@ -20,11 +20,11 @@ ${currdir}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\
 
 *** Tasks ***
 Open the intranet site and log in
-    Wait Until Keyword Succeeds    3x    0.5 sec    Open the intranet website
-    Log in
-    Close the annoying modal
+    #Wait Until Keyword Succeeds    3x    0.5 sec    Open the intranet website
+    #Log in
+    #Close the annoying modal
     #Get orders
-    #Read CSV File
+    Read CSV File
     
 
 
@@ -32,6 +32,7 @@ Open the intranet site and log in
 *** Keywords ***
 Open the intranet website
     Open Available Browser    ${URL}
+    Maximize Browser Window
 
 Log in
     Input Text    username    maria
@@ -44,11 +45,16 @@ Get orders
     ...    overwrite=${True}
 
 Read CSV File
-    ${data}=    Read table from CSV   path=${currdir}orders.csv
+    ${data}=    Read table from CSV   path=${currdir}orders.csv    
     FOR    ${row}    IN    @{data}
-        Log    ${row}
+        Log To Console    ${row}
     END
     
 Close the annoying modal
     Go To    https://robotsparebinindustries.com/#/robot-order
     Click Button    //*[@id="root"]/div/div[2]/div/div/div/div/div/button[1]
+
+Fill the form
+    Print To Pdf
+    
+    
