@@ -10,6 +10,8 @@ Library    RPA.HTTP
 Library    RPA.Tables 
 Library    RPA.Desktop
 Library    RPA.PDF
+Library    RPA.Archive
+
 
 *** Variables ***
 ${URL}=    https://robotsparebinindustries.com/
@@ -17,18 +19,22 @@ ${DOWNLOADURL}=       https://robotsparebinindustries.com/orders.csv
 ${currdir}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\
 ${data}
 ${delay}=    10 sec
-${receiptpath}=    output\\receipts
-${screenshotpath}=    output\\screenshots
-${mergedpath}=    output\\merged
+${receiptpath}=    output${/}receipts
+${screenshotpath}=    output${/}screenshots
+${mergedpath}=    output${/}merged
+${FILE_TO_BE_ZIPPED}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\output\\merged
 
 
 *** Tasks ***
-Open the intranet site and log in
-    Open the intranet website
-    Log in
-    Close the annoying modal
-    Get orders
-    Fill the forms and submit order
+#Open the intranet site and log in
+    # Open the intranet website
+    # Log in
+    # Close the annoying modal
+    # Get orders
+    # Fill the forms and submit order
+
+Create zipped file
+    Create ZIP package for the merged file
 
     
 
@@ -107,3 +113,7 @@ Embed the robot screenshot to the receipt PDF file
     Close Pdf
     Log    ${pdf} and ${screenshot} merged.
     Log To Console    ${pdf} and ${screenshot} merged. 
+
+Create ZIP package for the merged file
+    ${zip_file_name}=    Set Variable    ${OUTPUT_DIR}${/}output${/}merged-receipts.zip
+    Archive Folder With Zip    ${FILE_TO_BE_ZIPPED}    ${zip_file_name}
