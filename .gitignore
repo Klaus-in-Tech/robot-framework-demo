@@ -18,3 +18,5 @@ testrun/*
 /robotframeworkenv
 /rpa-challenge.robot
 /challenge.xlsx
+/entrybot.robot
+/sales_results.pdf
