@@ -5,13 +5,14 @@ Documentation     Orders robots from RobotSpareBin Industries Inc.
 ...               Embeds the screenshot of the robot to the PDF receipt.
 ...               Creates ZIP archive of the receipts and the images.
 
-Library    RPA.Browser.Selenium    auto_close=${False}
+Library    RPA.Browser.Selenium    auto_close=${True}
 Library    RPA.HTTP
 Library    RPA.Tables 
 Library    RPA.Desktop
 Library    RPA.PDF
 Library    RPA.Archive
 Library    RPA.RobotLogListener
+Library    RPA.Robocloud.Secrets
 
 
 *** Variables ***
@@ -49,8 +50,9 @@ Open the intranet website
     Maximize Browser Window
 
 Log in
-    Input Text    username    maria
-    Input Password    password    thoushallnotpass
+    ${secret}    Get Secret    ROBOT_CREDENTIALS
+    Input Text    username    ${secret}[username]
+    Input Password    password    ${secret}[password]
     Submit Form
 
 Get orders
@@ -129,6 +131,6 @@ Submit the order
     Page Should Contain Element     ${receipt}
 
 Go to order another robot
-    # Define local variables for the UI elements
     Set Local Variable      ${btn_order_another_robot}      //*[@id="order-another"]
     Click Button            ${btn_order_another_robot}
+
