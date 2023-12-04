@@ -1,14 +1,13 @@
-# Template: Robot Framework - Minimal
+# Automation Certification Level II - Robocorp
 
-This is the simplest template to start from.
+### Documentation for the create order process use case:<br>
+👉 https://robocorp.com/docs/courses/build-a-robot/create-order-process
 
-- Get started from a simple task template in `tasks.robot`.
-  - Uses [Robot Framework](https://robocorp.com/docs/languages-and-frameworks/robot-framework/basics) syntax.
-- You can configure your robot `robot.yaml`.
-- You can configure dependencies in `conda.yaml`.
+## Author
+- [Github](https://github.com/Klaus-in-Tech)
+- [LinkedIn](https://www.linkedin.com/in/kakoozaallanklaus/)
+- [Twitter](https://twitter.com/Klaus_in_Tech)
+- [YouTube](https://www.youtube.com/channel/UCbChxT4XT0MUhySZvTBZ0Mg)
 
-## Learning materials
 
-- [Robocorp Developer Training Courses](https://robocorp.com/docs/courses)
-- [Documentation links on Robot Framework](https://robocorp.com/docs/languages-and-frameworks/robot-framework)
-- [Example bots in Robocorp Portal](https://robocorp.com/portal)
+### Feel free to connect with me on my socials as listed above. 😊
