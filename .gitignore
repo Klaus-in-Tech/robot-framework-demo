@@ -26,3 +26,5 @@ testrun/*
 /log.html
 /output.xml
 /report.html
+/test.py
+/conda.yaml
