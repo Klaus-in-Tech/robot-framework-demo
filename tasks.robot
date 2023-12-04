@@ -11,29 +11,32 @@ Library    RPA.Tables
 Library    RPA.Desktop
 Library    RPA.PDF
 Library    RPA.Archive
+Library    RPA.RobotLogListener
 
 
 *** Variables ***
 ${URL}=    https://robotsparebinindustries.com/
-${DOWNLOADURL}=       https://robotsparebinindustries.com/orders.csv
-${currdir}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\
-${data}
-${delay}=    10 sec
-${receiptpath}=    output${/}receipts
-${screenshotpath}=    output${/}screenshots
-${mergedpath}=    output${/}merged
-${FILE_TO_BE_ZIPPED}=    D:\\_PROJECTS\\Robocorp projects\\robot-framework-demo\\output\\merged
+${DOWNLOAD_URL}=       https://robotsparebinindustries.com/orders.csv
+${GLOBAL_RETRY_INTERVAL}=    2s
+${GLOBAL_RETRY_AMOUNT}=    10x
+${receiptpath}=    receipts
+${screenshotpath}=    screenshots
+${mergedpath}=    merged
+${FILE_TO_BE_ZIPPED}=    ${OUTPUT_DIR}${/}${mergedpath}
+${ORDER_CSV}=    ${OUTPUT_DIR}${/}orders.csv
 
 
 *** Tasks ***
-#Open the intranet site and log in
-    # Open the intranet website
-    # Log in
-    # Close the annoying modal
-    # Get orders
-    # Fill the forms and submit order
+Open the intranet site and log in
+    Open the intranet website
+    Log in
+    Close the annoying modal
 
-Create zipped file
+Create orders
+    Get orders
+    Fill the forms and submit order
+
+Create zipped file for the merged receipts
     Create ZIP package for the merged file
 
     
@@ -52,11 +55,12 @@ Log in
 
 Get orders
     Download     
-    ...    ${DOWNLOADURL}    
+    ...    ${DOWNLOAD_URL}
+    ...    target_file=${ORDER_CSV} 
     ...    overwrite=${True}
 
 Read CSV File
-    ${data}=    Read table from CSV   path=${currdir}orders.csv    
+    ${data}=    Read table from CSV   path=${OUTPUT_DIR}${/}orders.csv    
     FOR    ${row}    IN    @{data}
         Log    ${row}
     END
@@ -72,15 +76,12 @@ Fill the form
     Click Element    id:id-body-${row}[Body]
     Input Text    css:div>input    ${row}[Legs]
     Input Text    address    ${row}[Address]
-    Wait Until Keyword Succeeds    5x    20s    Click Button    //*[@id="order"]
-    Wait Until Page Contains Element    id:order-another    timeout=20s
+    Wait Until Keyword Succeeds    ${GLOBAL_RETRY_AMOUNT}    ${GLOBAL_RETRY_INTERVAL}    Submit the order
     ${pdf}=    Store the receipt as a PDF file    ${row}[Order number]
     ${screenshot}=    Take a screenshot of the robot    ${row}[Order number]
     Embed the robot screenshot to the receipt PDF file    ${screenshot}    ${pdf}    ${row}[Order number]
-    Reload Page
-    Wait Until Keyword Succeeds    5x    20s    Go To    https://robotsparebinindustries.com/#/robot-order
-    Wait Until Page Contains Element    css:div.modal-body    timeout=10s
-    Click Button    //*[@id="root"]/div/div[2]/div/div/div/div/div/button[1]
+    Wait Until Keyword Succeeds    ${GLOBAL_RETRY_AMOUNT}    ${GLOBAL_RETRY_INTERVAL}    Go to order another robot
+    Close the annoying modal
     Log    Order number ${row}[Order number] processed.
     Log To Console    Order number ${row}[Order number] processed.
 
@@ -95,15 +96,15 @@ Store the receipt as a PDF file
     [Arguments]    ${orderNumber}    
     ${receipt}=    Get Element Attribute    id:receipt    outerHTML
     Html To Pdf    ${receipt}    ${OUTPUT_DIR}${/}${receiptpath}${/}receipt-${orderNumber}.pdf
-    Log        Receipt with path ${OUTPUT_DIR}${/}${receipt}${/}receipt-${orderNumber}.pdf processed.
-    Log To Console    Receipt with path ${OUTPUT_DIR}${/}${receipt}${/}receipt-${orderNumber}.pdf processed.
+    Log        Receipt with path ${OUTPUT_DIR}${/}${receiptpath}${/}receipt-${orderNumber}.pdf processed.
+    Log To Console    Receipt with path ${OUTPUT_DIR}${/}${receiptpath}${/}receipt-${orderNumber}.pdf processed.
     [Return]   ${OUTPUT_DIR}${/}${receiptpath}${/}receipt-${orderNumber}.pdf
 
 Take a screenshot of the robot
     [Arguments]    ${orderNumber}
     ${screenshot}=    Screenshot    id:robot-preview-image     ${OUTPUT_DIR}${/}${screenshotpath}${/}robot-${orderNumber}.png
-    Log    Screenshot with ${OUTPUT_DIR}${/}${screenshotpath}${/}robot-${orderNumber}.png processed.
-    Log To Console    Screenshot with ${OUTPUT_DIR}${/}${screenshotpath}${/}robot-${orderNumber}.png processed.
+    Log    Screenshot with path ${OUTPUT_DIR}${/}${screenshotpath}${/}robot-${orderNumber}.png processed.
+    Log To Console    Screenshot with path ${OUTPUT_DIR}${/}${screenshotpath}${/}robot-${orderNumber}.png processed.
     [Return]    ${screenshot}
 
 Embed the robot screenshot to the receipt PDF file
@@ -111,9 +112,23 @@ Embed the robot screenshot to the receipt PDF file
     Open Pdf    ${pdf}
     Add Watermark Image To Pdf    ${screenshot}    ${OUTPUT_DIR}${/}${mergedpath}${/}merged-${orderNumber}.pdf    ${pdf}
     Close Pdf
-    Log    ${pdf} and ${screenshot} merged.
-    Log To Console    ${pdf} and ${screenshot} merged. 
+    Log    ${pdf} and ${screenshot} merged sucessfully.
+    Log To Console    ${pdf} and ${screenshot} merged successfully. 
 
 Create ZIP package for the merged file
-    ${zip_file_name}=    Set Variable    ${OUTPUT_DIR}${/}output${/}merged-receipts.zip
+    ${zip_file_name}=    Set Variable    ${OUTPUT_DIR}${/}merged-receipts.zip
     Archive Folder With Zip    ${FILE_TO_BE_ZIPPED}    ${zip_file_name}
+
+Submit the order
+    ${btn_order}    Set Variable    //*[@id="order"]
+    ${receipt}    Set Variable  //*[@id="receipt"]
+
+    Mute Run On Failure    Page Should Contain Element 
+
+    Click button                    ${btn_order}
+    Page Should Contain Element     ${receipt}
+
+Go to order another robot
+    # Define local variables for the UI elements
+    Set Local Variable      ${btn_order_another_robot}      //*[@id="order-another"]
+    Click Button            ${btn_order_another_robot}
